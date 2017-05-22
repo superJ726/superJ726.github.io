@@ -32,7 +32,7 @@
             url(/fonts/MaterialIcons-Regular.ttf) format('truetype')
         }
     </style>
-</head>
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
 <body>
 <div class="progress" >
     <div class="indeterminate"></div>
@@ -101,7 +101,7 @@
 
 <ul class="dropdown-menu dropdown" >
     <li class="nav-dropdown-list">
-        <a class="category-link" href="/categories/HTML5-文章分类/">HTML5//文章分类<span class="category-count">1</span></a>
+        <a class="category-link" href="/categories/HTML5/">HTML5<span class="category-count">1</span></a>
     </li>
 </ul>
 <!--tags-->
@@ -127,8 +127,8 @@
 <div id="content-outer">
   <div id="content-inner">
     <article id="post">
-  <div class="post-page-title" style="background-image:url(//文章的图片url，如果不填则为默认图片)" >
-  <h2>简单的实现历史搜索功能//文章标题</h2>
+  <div class="post-page-title" style="background-image:url(/images/bk/bk2.png)" >
+  <h2>简单的实现历史搜索功能</h2>
     
   <p>作者:super J726 &nbsp&nbsp 发布于:<time datetime="2017-05-22T07:21:30.000Z">
           2017-05-22
@@ -137,7 +137,63 @@
     
   </div>
   <div class="post-page-content">
-  <h2 id="思路及实现过程："><a href="#思路及实现过程：" class="headerlink" title="思路及实现过程："></a>思路及实现过程：</h2><h3 id="1-获取本地储存的数据，并解析成一个数组，这里用到H5的一个方法：localStorage。"><a href="#1-获取本地储存的数据，并解析成一个数组，这里用到H5的一个方法：localStorage。" class="headerlink" title="1.获取本地储存的数据，并解析成一个数组，这里用到H5的一个方法：localStorage。"></a>1.获取本地储存的数据，并解析成一个数组，这里用到H5的一个方法：localStorage。</h3>
+  <p> 本文主要介绍如何简单的实现历史搜索功能。</p>
+<h5 id="思路及实现过程："><a href="#思路及实现过程：" class="headerlink" title="思路及实现过程："></a>思路及实现过程：</h5><h6 id="1-获取本地储存的数据，并解析成一个数组，这里用到H5的一个方法：localStorage。"><a href="#1-获取本地储存的数据，并解析成一个数组，这里用到H5的一个方法：localStorage。" class="headerlink" title="1.获取本地储存的数据，并解析成一个数组，这里用到H5的一个方法：localStorage。"></a>1.获取本地储存的数据，并解析成一个数组，这里用到H5的一个方法：localStorage。</h6><p> localStorage与sessionStorage区别在于前者可以永久保存，后者则是在浏览器关闭之后，数据就会被清空。</p>
+<p>  其中 searchHistory 为自定义的本地数据数组名称。</p>
+<p>  将获取数据函数封装，在提交搜索函数内调用。</p>
+<p><img src="http://project.jwsoft.cc:83/zentao/data/upload/1/201705/1818243706988ebs.png" alt="Alt text"></p>
+<hr>
+<pre><code> getSearchHistory() {     //读取本地储存的数据
+
+                var arr = localStorage.searchHistory ? JSON.parse(localStorage.searchHistory) : [ ];
+
+                return arr;
+
+        }
+</code></pre><h6 id="2-在执行onSubmit命令提交搜索时进行判断，判断用户输入的关键词是否与本地储存的数据中其中一项重复，若判断不重复则存入本地数据中，重复则不保存。"><a href="#2-在执行onSubmit命令提交搜索时进行判断，判断用户输入的关键词是否与本地储存的数据中其中一项重复，若判断不重复则存入本地数据中，重复则不保存。" class="headerlink" title="2.在执行onSubmit命令提交搜索时进行判断，判断用户输入的关键词是否与本地储存的数据中其中一项重复，若判断不重复则存入本地数据中，重复则不保存。"></a>2.在执行onSubmit命令提交搜索时进行判断，判断用户输入的关键词是否与本地储存的数据中其中一项重复，若判断不重复则存入本地数据中，重复则不保存。</h6><p><img src="http://project.jwsoft.cc:83/zentao/data/upload/1/201705/190913560550ri3.png" alt="Alt text"></p>
+<hr>
+<pre><code> onSubmit() {  //执行提交搜索函数
+            var searchName = this.keywords;//定义变量，将输入框内的关键词赋值给变量
+            console.log(&#39;this.searchName&#39;, searchName)
+            if (searchName == &quot;&quot;) {//判断关键词是否为空
+                this.showNowords = true;
+                return;
+            } else {
+                this.showNowords = false;
+                var data = this.getSearchHistory();//定义变量，将本地储存的数据赋值给变量
+                if (data.length == 0) {//判断本地储存是否无数据
+                        data.push(searchName);//判断成功，将关键词变量的值存入本地数据数组中
+                } else {
+                        var flag = true;//定义一个标识，用于决定是否将输入框内的值存入本地
+                        for (var i = 0; i &lt; data.length; i++) {//循环本地储存的数据，逐一与输入框内的值对比
+                                if (data[i] == searchName) {//判断输入框内的值是否与本地储存的值有相同
+                                        flag = false;
+                                }
+                        }
+                        if (flag) {//判断如果标识为true执行下一步
+                                data.push(searchName)//判断成功，将关键词变量的值存入本地数据数组中
+                            }
+                 }
+                this.saveSearchHistory(data);//执行保存本地储存数据函数
+            }
+     }
+</code></pre><h6 id="3-执行保存本地储存数据的函数。"><a href="#3-执行保存本地储存数据的函数。" class="headerlink" title="3.执行保存本地储存数据的函数。"></a>3.执行保存本地储存数据的函数。</h6><p> 将保存数据函数封装，在提交搜索函数内调用。</p>
+<p><img src="http://project.jwsoft.cc:83/zentao/data/upload/1/201705/1818324208227sre.png" alt="Alt text"><br><img src="http://project.jwsoft.cc:83/zentao/data/upload/1/201705/1818325306264gtc.png" alt="Alt text"></p>
+<hr>
+<pre><code> saveSearchHistory(data) {  //保存本地储存的数据
+
+                    localStorage.searchHistory = JSON.stringify(data);
+
+            }
+</code></pre><h6 id="4-将数据在页面中展示出来。"><a href="#4-将数据在页面中展示出来。" class="headerlink" title="4.将数据在页面中展示出来。"></a>4.将数据在页面中展示出来。</h6><p><img src="http://project.jwsoft.cc:83/zentao/data/upload/1/201705/19090009028947kj.png" alt="Alt text"></p>
+<hr>
+<pre><code>  &lt;span v-for=&quot;value in data&quot; @click=&quot;goSearchHistory($event)&quot;&gt;{{value}}&lt;/span&gt;
+</code></pre><p> data就是储存在本地的数据数组，循环value，在页面中展示</p>
+<p><img src="http://project.jwsoft.cc:83/zentao/data/upload/1/201705/1909014902894pri.png" alt="Alt text"></p>
+<h6 id="5-清除历史搜索记录。"><a href="#5-清除历史搜索记录。" class="headerlink" title="5.清除历史搜索记录。"></a>5.清除历史搜索记录。</h6><p>清空本地储存数据，直接用localStorage里的方法：localStorage.clear();</p>
+<p>并重新获取一下本地的数据以使页面数据得到更新。</p>
+<p><img src="http://project.jwsoft.cc:83/zentao/data/upload/1/201705/1909193907166g7k.png" alt="Alt text"></p>
+<h6 id="简单的历史搜索就做好啦！"><a href="#简单的历史搜索就做好啦！" class="headerlink" title="简单的历史搜索就做好啦！"></a>简单的历史搜索就做好啦！</h6>
   </div>
   <!--评论块-->
     
@@ -158,7 +214,7 @@
 <div class="post-toc-btn"><i class="material-icons">format_list_numbered</i></div>
 <div class="post-toc-none"><p>(无)</p></div>
 <div class="post-toc-box">
-    <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#思路及实现过程："><span class="post-toc-number">1.</span> <span class="post-toc-text">思路及实现过程：</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-获取本地储存的数据，并解析成一个数组，这里用到H5的一个方法：localStorage。"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">1.获取本地储存的数据，并解析成一个数组，这里用到H5的一个方法：localStorage。</span></a></li></ol></li></ol>
+    <ol class="post-toc"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#思路及实现过程："><span class="post-toc-number">1.</span> <span class="post-toc-text">思路及实现过程：</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#1-获取本地储存的数据，并解析成一个数组，这里用到H5的一个方法：localStorage。"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">1.获取本地储存的数据，并解析成一个数组，这里用到H5的一个方法：localStorage。</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#2-在执行onSubmit命令提交搜索时进行判断，判断用户输入的关键词是否与本地储存的数据中其中一项重复，若判断不重复则存入本地数据中，重复则不保存。"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">2.在执行onSubmit命令提交搜索时进行判断，判断用户输入的关键词是否与本地储存的数据中其中一项重复，若判断不重复则存入本地数据中，重复则不保存。</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#3-执行保存本地储存数据的函数。"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">3.执行保存本地储存数据的函数。</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#4-将数据在页面中展示出来。"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">4.将数据在页面中展示出来。</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#5-清除历史搜索记录。"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">5.清除历史搜索记录。</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#简单的历史搜索就做好啦！"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">简单的历史搜索就做好啦！</span></a></li></ol></li></ol>
 </div>
 <div class="post-back"><i class="material-icons">arrow_back</i></div>
 

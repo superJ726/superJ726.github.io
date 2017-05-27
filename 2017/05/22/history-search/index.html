@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   
-  <meta name="keywords" content="网站关键字">
-  <meta name="description" content="网站简介">
+  <meta name="keywords" content="soldier">
+  <meta name="description" content="soldierSS">
   
   <title>soldier&#39;s blog</title>
   
@@ -193,7 +193,18 @@
 <h6 id="5-清除历史搜索记录。"><a href="#5-清除历史搜索记录。" class="headerlink" title="5.清除历史搜索记录。"></a>5.清除历史搜索记录。</h6><p>清空本地储存数据，直接用localStorage里的方法：localStorage.clear();</p>
 <p>并重新获取一下本地的数据以使页面数据得到更新。</p>
 <p><img src="http://project.jwsoft.cc:83/zentao/data/upload/1/201705/1909193907166g7k.png" alt="Alt text"></p>
-<h6 id="简单的历史搜索就做好啦！"><a href="#简单的历史搜索就做好啦！" class="headerlink" title="简单的历史搜索就做好啦！"></a>简单的历史搜索就做好啦！</h6>
+<h6 id="简单的历史搜索就做好啦！"><a href="#简单的历史搜索就做好啦！" class="headerlink" title="简单的历史搜索就做好啦！"></a>简单的历史搜索就做好啦！</h6><hr>
+<blockquote>
+<p>####### #5/27 更新</p>
+</blockquote>
+<p>增加需求：历史搜索记录不超过20条。</p>
+<pre><code>if(flag) { //判断如果标识为true执行下一步
+                        if(data.length &gt;= 20){//判断本地是否存满20个
+                            data.shift()//若历史记录已经20个 删除最早的一个
+                        }
+                        data.push(searchName) //判断成功，将关键词变量的值存入本地数据数组中
+                    }
+</code></pre>
   </div>
   <!--评论块-->
     

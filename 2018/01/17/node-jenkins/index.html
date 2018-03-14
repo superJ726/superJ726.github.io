@@ -137,38 +137,43 @@
     
   </div>
   <div class="post-page-content">
-  <p>#####node项目在jenkins中实现自动化打包及部署。</p>
-<p>######新建项目</p>
-<p><img src="http://pms.jdytrip.cn/data/upload/1/201803/1417411207115uc5.png" alt=""></p>
+  <h4 id="node项目在jenkins中实现自动化打包及部署。"><a href="#node项目在jenkins中实现自动化打包及部署。" class="headerlink" title="node项目在jenkins中实现自动化打包及部署。"></a>node项目在jenkins中实现自动化打包及部署。</h4><p>在之前的发版项目过程中，出现几次例如，本地前端代码中环境切换未切换对应的服务器域名的错误等，因此需要更好的维护前端项目。</p>
+<p>首先前端项目需跟后端项目一样，启用多分支，对应分支分开打包部署。</p>
+<p>因此用jenkins来实现前端项目的自动化打包及部署。</p>
+<h6 id="1-新建项目"><a href="#1-新建项目" class="headerlink" title="1.新建项目"></a>1.新建项目</h6><p><img src="http://pms.jdytrip.cn/data/upload/1/201803/1417411207115uc5.png" alt=""></p>
 <hr>
-<p>######输入你需要构建的项目名称，例如 One_sp_b2b-front，选择自由风格。</p>
-<p><img src="http://pms.jdytrip.cn/data/upload/1/201803/1417411703552i57.png" alt=""></p>
-<p>######参数化构建配置</p>
-<p>在构建前端项目前的JOB中增加构建后操作，当前是在One_sp_b2b-web中配置</p>
+<h6 id="2-输入你需要构建的项目名称，例如-One-sp-b2b-front，选择自由风格。"><a href="#2-输入你需要构建的项目名称，例如-One-sp-b2b-front，选择自由风格。" class="headerlink" title="2.输入你需要构建的项目名称，例如 One_sp_b2b-front，选择自由风格。"></a>2.输入你需要构建的项目名称，例如 One_sp_b2b-front，选择自由风格。</h6><p><img src="http://pms.jdytrip.cn/data/upload/1/201803/1417411703552i57.png" alt=""></p>
+<h6 id="3-参数化构建配置"><a href="#3-参数化构建配置" class="headerlink" title="3.参数化构建配置"></a>3.参数化构建配置</h6><p><code>3.1在构建前端项目前的JOB中增加构建后操作，当前是在One_sp_b2b-web中配置</code></p>
 <p><img src="http://pms.jdytrip.cn/data/upload/1/201803/1417415007542ru.png" alt=""></p>
-<p>回到 One_sp_b2b-front,配置参数化构建过程，增加 string parameter</p>
+<p><code>3.2回到 One_sp_b2b-front,配置参数化构建过程，增加 string parameter</code></p>
 <hr>
 <p><img src="http://pms.jdytrip.cn/data/upload/1/201803/14174153045326s4.png" alt=""></p>
 <hr>
 <p><img src="http://pms.jdytrip.cn/data/upload/1/201803/1417415708347ms1.png" alt=""></p>
 <hr>
-<p>######源码管理的配置</p>
-<p>这里的Branch Specifier用上面配置的参数</p>
+<h6 id="4-源码管理的配置"><a href="#4-源码管理的配置" class="headerlink" title="4.源码管理的配置"></a>4.源码管理的配置</h6><p><code>4.1这里的Branch Specifier用上面配置的参数</code></p>
 <p><img src="http://pms.jdytrip.cn/data/upload/1/201803/1417412703108573.png" alt=""></p>
 <hr>
-<p>######构建的配置</p>
-<ol>
-<li>增加构建步骤</li>
-</ol>
+<h6 id="5-构建的配置"><a href="#5-构建的配置" class="headerlink" title="5.构建的配置"></a>5.构建的配置</h6><p><code>5.1. 增加构建步骤</code></p>
 <p><img src="http://pms.jdytrip.cn/data/upload/1/201803/1417413103976uc5.png" alt=""></p>
-<p>2.编写node打包命令脚本（服务器需要安装Nodo.js)</p>
-<p><img src="http://pms.jdytrip.cn/data/upload/1/201803/1417413406681ms1.png" alt=""></p>
-<p>3.平时打包前端代码是打包到templates文件夹中，因此web项目中的前端代码中需要修改默认打包地址，<br>在项目中，配置npm run build打包地址的index.js在config文件夹中,<br>将打包地址改为../templates,即在服务器打包时，在/home/jenkins/workspace/One_sp_b2b-front/文件夹中创建一个templates文件夹</p>
+<p><code>5.2.编写node打包命令脚本（服务器需要安装Node.js)</code></p>
+<pre><code>npm install
+npm run build
+</code></pre><p><img src="http://pms.jdytrip.cn/data/upload/1/201803/1417413406681ms1.png" alt=""></p>
+<p><code>5.3.平时打包前端代码是打包到templates文件夹中，因此web项目中的前端代码中需要修改默认打包地址，在项目中，配置npm run build打包地址的index.js在config文件夹中,将打包地址改为../templates,即在服务器打包时，在/home/jenkins/workspace/One_sp_b2b-front/文件夹中创建一个templates文件夹</code></p>
 <p><img src="http://pms.jdytrip.cn/data/upload/1/201803/141741480268082r.png" alt=""></p>
-<p>4.服务器执行完打包后，执行转移代码脚本，将编译后的前端代码cp到web项目中</p>
-<p><img src="http://pms.jdytrip.cn/data/upload/1/201803/14174138023522ru.png" alt=""></p>
-<p>5.继续新增一个脚本，执行web JOB的打包构建脚本</p>
+<p><code>5.4.服务器执行完打包后，执行转移代码脚本，将编译后的前端代码cp到web项目中</code></p>
+<pre><code>cp -rf /home/jenkins/workspace/One_sp_b2b-front/templates/* /home/jenkins/workspace/One_sp_b2b-web/src/main/resources/templates/
+</code></pre><p><img src="http://pms.jdytrip.cn/data/upload/1/201803/14174138023522ru.png" alt=""></p>
+<p><code>5.5.继续新增一个脚本，invoke top-level Maven targets</code></p>
+<p><img src="http://pms.jdytrip.cn/data/upload/1/201803/14174140021586s4.png" alt=""></p>
+<hr>
+<p>web构建项目的脚本配置，搬过来执行一次，目的是在前端代码打完完并且cp到web项目中后，让web项目重启一遍。</p>
+<pre><code>clean install  -Dmaven.test.skip=true -U -Ptest
+</code></pre><p><img src="http://pms.jdytrip.cn/data/upload/1/201803/1418591705393c5d.png" alt=""></p>
+<p><code>5.6.继续新增一个脚本，执行web JOB的打包构建脚本</code></p>
 <p><img src="http://pms.jdytrip.cn/data/upload/1/201803/1417414306058573.png" alt=""></p>
+<h6 id="6-完成"><a href="#6-完成" class="headerlink" title="6.完成"></a>6.完成</h6><p><code>点apply并保存，返回面板，立即构建</code></p>
 
   </div>
   <!--评论块-->
@@ -190,7 +195,7 @@
 <div class="post-toc-btn"><i class="material-icons">format_list_numbered</i></div>
 <div class="post-toc-none"><p>(无)</p></div>
 <div class="post-toc-box">
-    
+    <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#node项目在jenkins中实现自动化打包及部署。"><span class="post-toc-number">1.</span> <span class="post-toc-text">node项目在jenkins中实现自动化打包及部署。</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#1-新建项目"><span class="post-toc-number">1.0.1.</span> <span class="post-toc-text">1.新建项目</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#2-输入你需要构建的项目名称，例如-One-sp-b2b-front，选择自由风格。"><span class="post-toc-number">1.0.2.</span> <span class="post-toc-text">2.输入你需要构建的项目名称，例如 One_sp_b2b-front，选择自由风格。</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#3-参数化构建配置"><span class="post-toc-number">1.0.3.</span> <span class="post-toc-text">3.参数化构建配置</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#4-源码管理的配置"><span class="post-toc-number">1.0.4.</span> <span class="post-toc-text">4.源码管理的配置</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#5-构建的配置"><span class="post-toc-number">1.0.5.</span> <span class="post-toc-text">5.构建的配置</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#6-完成"><span class="post-toc-number">1.0.6.</span> <span class="post-toc-text">6.完成</span></a></li></ol></li></ol></li></ol>
 </div>
 <div class="post-back"><i class="material-icons">arrow_back</i></div>
 

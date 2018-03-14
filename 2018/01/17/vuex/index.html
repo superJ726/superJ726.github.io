@@ -88,7 +88,7 @@
 
 <ul class="dropdown-menu dropdown" >
     <li class="nav-dropdown-list">
-        <a class="archive-link" href="/archives/2018/01/">一月 2018<span class="archive-count">1</span></a></li><li class="nav-dropdown-list"><a class="archive-link" href="/archives/2017/05/">五月 2017<span class="archive-count">1</span></a>
+        <a class="archive-link" href="/archives/2018/01/">一月 2018<span class="archive-count">2</span></a></li><li class="nav-dropdown-list"><a class="archive-link" href="/archives/2017/05/">五月 2017<span class="archive-count">1</span></a>
     </li>
 </ul>
 <!--categories-->
@@ -101,7 +101,7 @@
 
 <ul class="dropdown-menu dropdown" >
     <li class="nav-dropdown-list">
-        <a class="category-link" href="/categories/HTML5/">HTML5<span class="category-count">2</span></a>
+        <a class="category-link" href="/categories/HTML5/">HTML5<span class="category-count">2</span></a></li><li class="nav-dropdown-list"><a class="category-link" href="/categories/node/">node<span class="category-count">1</span></a>
     </li>
 </ul>
 <!--tags-->
@@ -127,7 +127,7 @@
 <div id="content-outer">
   <div id="content-inner">
     <article id="post">
-  <div class="post-page-title" style="background-image:url(/images/bk/bk2.png)" >
+  <div class="post-page-title" style="background-image:url(/images/bk/bk3.png)" >
   <h2>vuex浅谈</h2>
     
   <p>作者:super J726 &nbsp&nbsp 发布于:<time datetime="2018-01-17T08:08:24.000Z">
@@ -138,6 +138,46 @@
   </div>
   <div class="post-page-content">
   <p> 本文主要讲述对vuex初学的理解与使用。</p>
+<p>#####vuex的四大金刚</p>
+<h6 id="State-Getter-Mutation-Action"><a href="#State-Getter-Mutation-Action" class="headerlink" title="State/Getter/Mutation/Action"></a>State/Getter/Mutation/Action</h6><hr>
+<p>###State<br>state是一个数据大仓库，你在项目中需要用到状态管理的所有数据，都在这里储存。</p>
+<p>在store.js大仓库中，定义一个参数sallingList，并赋初始值为空。</p>
+<pre><code>const state = {
+    sallingList: []
+}
+</code></pre><p>那么问题来了，这个字段，我们在页面中如何使用？</p>
+<p>所以我们需要一个辅助函数，mapState</p>
+<p>在页面中引入mapState，并在页面中定义sallingList字段，将state仓库中的sallingList的值赋予它。</p>
+<pre><code>import { mapState } from &quot;vuex&quot;;
+
+
+computed: mapState({
+    sallingList: state =&gt; state.sallingList
+  }),
+</code></pre><p>现在我们就可以在页面中，随意的使用它了。</p>
+<pre><code>&lt;div class=&quot;sallingList&quot;&gt;
+    &lt;div class=&quot;sallingListWrapper&quot;&gt;
+        &lt;div class=&quot;sallingListItem&quot; v-for=&quot;item in sallingList&quot; :key=&quot;item&quot;&gt;
+            &lt;div class=&quot;sallingListItemImg&quot;&gt;
+                &lt;img :src=&quot;item.img&quot; alt=&quot;&quot;&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;sallingListItemText&quot;&gt;
+                &lt;p&gt;{{item.titleCn}}&lt;/p&gt; 
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre><p>###Mutation</p>
+<p>首先vuex的作者定义的mutation是更改 Vuex 的 store 中的状态的唯一方法。</p>
+<p>一句话概括就是：mutation中定义事件与回调，来进行状态更改。</p>
+<pre><code>const mutations = {
+  get_salling_list(state, data) {
+    state.sallingList = data
+}
+</code></pre><p>事件: </p>
+<pre><code>get_salling_list
+</code></pre><p>回调: </p>
+<p>更改state中 sallingList 的值</p>
 
   </div>
   <!--评论块-->
@@ -151,7 +191,7 @@
 
   <!-- Next Nav -->
     
-  <a href="/2017/05/22/history-search/" id="post_nav-older" class="post-nav-content next-content">
+  <a href="/2018/01/17/node-jenkins/" id="post_nav-older" class="post-nav-content next-content">
       旧篇
   </a>
     
@@ -159,7 +199,7 @@
 <div class="post-toc-btn"><i class="material-icons">format_list_numbered</i></div>
 <div class="post-toc-none"><p>(无)</p></div>
 <div class="post-toc-box">
-    
+    <ol class="post-toc"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#State-Getter-Mutation-Action"><span class="post-toc-number">1.</span> <span class="post-toc-text">State/Getter/Mutation/Action</span></a></li></ol>
 </div>
 <div class="post-back"><i class="material-icons">arrow_back</i></div>
 

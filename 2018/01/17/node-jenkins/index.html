@@ -137,7 +137,49 @@
     
   </div>
   <div class="post-page-content">
-  <p> node项目在jenkins。</p>
+  <p>##node项目在jenkins中实现自动化打包及部署。</p>
+<ul>
+<li>新建项目</li>
+</ul>
+<p><img src="http://m.qpic.cn/psb?/V10GArct1d477r/VIBl6cqIeHWyd9xslh1DO.CbASyYVyHZOzFCjRI1Ayw!/b/dEIBAAAAAAAA&amp;bo=ZQFoAQAAAAADBy8!&amp;rf=viewer_4" alt=""></p>
+<hr>
+<ul>
+<li>输入你需要构建的项目名称，例如 One_sp_b2b-front，选择自由风格。</li>
+</ul>
+<p><img src="http://m.qpic.cn/psb?/V10GArct1d477r/YytPkUukL6WZVc*oyGirXthqIR9qdz4hKjw7y4mF61k!/b/dEIBAAAAAAAA&amp;bo=fgPfAAAAAAADB4A!&amp;rf=viewer_4" alt=""></p>
+<hr>
+<ul>
+<li>参数化构建配置</li>
+</ul>
+<pre class=" language-在构建前端项目前的JOB中增加构建后操作，当前是在One_sp_b2b-web中配置```"><code class="language-在构建前端项目前的JOB中增加构建后操作，当前是在One_sp_b2b-web中配置```">
+![](http://m.qpic.cn/psb?/V10GArct1d477r/NiD4slpPzWUfNq1JSDNiPRu4jx5VqzSQfcszrQRvTjo!/b/dEABAAAAAAAA&bo=KwWAAgAAAAADB44!&rf=viewer_4)
+
+```回到 One_sp_b2b-front,配置参数化构建过程，增加 string parameter
+</code></pre>
+<p><img src="http://m.qpic.cn/psb?/V10GArct1d477r/Hng81NFcv6OkGYNxw7NKzcgoItVZv8YsO3*RuKbXJDI!/b/dEQBAAAAAAAA&amp;bo=NwWAAgAAAAADB5I!&amp;rf=viewer_4" alt=""></p>
+<p><img src="http://m.qpic.cn/psb?/V10GArct1d477r/iT4x9xWQeEzPBA7tVPeJEVfOwrcZEb4bqtT4LD*J.Dg!/b/dPIAAAAAAAAA&amp;bo=lAXZAQAAAAADB2s!&amp;rf=viewer_4" alt=""></p>
+<hr>
+<ul>
+<li>源码管理的配置<br><code>这里的Branch Specifier用上面配置的参数</code><br><img src="http://m.qpic.cn/psb?/V10GArct1d477r/5xSWcL2VOvWhCyRd5uSCk3x*JuiRArUQUCqOchCxT7I!/b/dEEBAAAAAAAA&amp;bo=kwU3AgAAAAADB4E!&amp;rf=viewer_4" alt=""></li>
+</ul>
+<hr>
+<ul>
+<li>构建的配置</li>
+</ul>
+<p><code>1. 增加构建步骤</code></p>
+<p><img src="http://m.qpic.cn/psb?/V10GArct1d477r/pZ1zI.Mm7UxdAO1XHKvMGKPOUuFK89A8EJAjU6vAfQ8!/b/dAQBAAAAAAAA&amp;bo=LAFIAQAAAAADB0Y!&amp;rf=viewer_4" alt=""></p>
+<pre class=" language-2.编写node打包命令脚本（服务器需要安装Nodo.js)```"><code class="language-2.编写node打包命令脚本（服务器需要安装Nodo.js)```">
+![](http://m.qpic.cn/psb?/V10GArct1d477r/ogzlB6YcQDJHwkt4F44sEdcuyZqRiO1UDC8hmcQv0*8!/b/dFsBAAAAAAAA&bo=nQUuAQAAAAADB5U!&rf=viewer_4)
+
+```3.平时打包前端代码是打包到templates文件夹中，因此web项目中的前端代码中需要修改默认打包地址，
+</code></pre>
+<p><code>在项目中，配置npm run build打包地址的index.js在config文件夹中,</code></p>
+<pre class=" language-将打包地址改为../templates,即在服务器打包时，在/home/jenkins/workspace/One_sp_b2b-front/文件夹中创建一个templates文件夹```"><code class="language-将打包地址改为../templates,即在服务器打包时，在/home/jenkins/workspace/One_sp_b2b-front/文件夹中创建一个templates文件夹```">
+![](http://m.qpic.cn/psb?/V10GArct1d477r/sf7YYiLiCoWDM*Z5j3fVKl9MMqOS8EFzT6uoNPZqqO4!/b/dGgBAAAAAAAA&bo=uwIXAQAAAAADB40!&rf=viewer_4)
+
+```4.服务器执行完打包后，执行转移代码脚本，将编译后的前端代码cp到web项目中
+</code></pre>
+<p><img src="http://m.qpic.cn/psb?/V10GArct1d477r/tipvExqEAfiqbF82stuCHDtirmAcftFwpQQWH0jd0bc!/b/dAgBAAAAAAAA&amp;bo=nAX9AAAAAAADB0Y!&amp;rf=viewer_4" alt=""></p>
 
   </div>
   <!--评论块-->
@@ -147,15 +189,11 @@
 <nav class="post-nav">
   <!-- Prev Nav -->
     
-  <a href="/2018/01/17/vuex/" id="post_nav-newer" class="post-nav-content prev-content">
-      新篇
-  </a>
-    
 
 
   <!-- Next Nav -->
     
-  <a href="/2017/05/22/history-search/" id="post_nav-older" class="post-nav-content next-content">
+  <a href="/2018/01/17/vuex/" id="post_nav-older" class="post-nav-content next-content">
       旧篇
   </a>
     
